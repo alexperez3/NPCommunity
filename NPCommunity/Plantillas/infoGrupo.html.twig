@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<script type="text/javascript" src="{{ asset('js/busqueda.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/amistadGrupos.js') }}"></script>
+		{# Css #}
+		<link
+		rel="stylesheet" href="{{ asset('css/estilo.css') }}">
+		{# Alertas #}
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		{# bootstrap #}
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		{% include 'barraSuperior.html.twig' %}
+		<div class="container-fluid px-5">
+			<div id="contenido" class="row">
+				{% if mensaje == 0 %}
+
+					<div class="col-12 col-lg-4 mt-4">
+						<div class="col-12">
+							<img style="border-radius:100px;" onclick="volver()" width="40px" height="40px" src="{{asset('fotos/flecha.png')}}" alt="">
+							<small class="text-body-secondary">Volver a la página principal</small>
+						</div>
+						
+						<div class="row">
+							<div class="col d-flex justify-content-center">
+								<h1>Grupo</h1>
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="col-12 d-flex justify-content-center align-items-center mb-1">
+								<img style="border-radius:50px" src="{{asset('fotos/' ~ grupo.idUsuCreador.fotoPerfil)}}" width="70px" height="70px">
+								<h4>@{{grupo.idUsuCreador.nomUsuario}}</h4>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col d-flex justify-content-center align-items-center">
+								<div class="card" style="width: 25rem;">
+									<img src="{{asset('fotos/' ~ grupo.fotoPerfil)}}" class="card-img-top">
+									<div class="card-body">
+										<h5 class="card-title">{{ grupo.nombre }}</h5>
+										<p class="card-text">{{ grupo.descripcion }}</p>
+										<div class="row">
+											<div class="col-5 d-flex  align-items-center">
+												<small class="text-body-secondary">Posts:
+													{{ arrPosts|length }}
+												</small>
+											</div>
+											{% if app.user %}
+												<div class="col-7 d-flex justify-content-end align-items-center">
+													<input type="text" id="idGrupo" value="{{grupo.id}}" style="display:none">
+													<input type="text" id="nomGrupo" value="{{grupo.nombre}}" style="display:none">
+													{% if siguiendo == 3 %}
+														<button id="boton" class="btn btn-outline-danger" value="borrar">Eliminar</button>
+													{% elseif siguiendo == 2 %}
+														<button id="boton" class="btn btn-outline-secondary" value="dejarDSeguir">Dejar de seguir</button>
+													{% elseif siguiendo == 1 %}
+														<button id="boton" class="btn btn-outline-info" value="seguir">Seguir</button>
+													{% endif %}
+												</div>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div id="contenedor" class="col-12 col-lg-8 mt-2">
+						<div class="row">
+							<div class="col d-flex justify-content-center">
+								<h1>Posts</h1>
+							</div>
+						</div>
+						<div class="row" style="height: 730px; overflow: auto;">
+							{% if mensaje == 0 %}
+								{% if arrPosts != null %}
+									{% for post in arrPosts %}
+										<form action="/comentariosPorPost" method="post">
+											<input type="text" name="idPost" value="{{ post.id }}" hidden>
+											<div class="card mb-3">
+												<div class="row g-0">
+													<div class="col-md-4 d-flex justify-content-center align-items-center">
+														<img src="{{asset('fotos/'~ post.foto )}}" class="img-fluid rounded-start">
+													</div>
+													<div class="col-md-8">
+														<div class="card-body">
+															<h5 class="card-title">
+																<img style="border-radius:50px; width:40px; height:40px;" src="{{asset('fotos/'~ post.idUsuario.fotoPerfil)}}">
+																@{{ post.idUsuario.nomUsuario }}
+															</h5>
+															<p class="card-text">{{ post.contenido }}</p>
+															<p class="card-text">
+																<div class="row">
+																	<div class="col-7">
+																		{% set numComentarios = 0 %}
+																		{% for comentario in comentarios %}
+																			{% if comentario.getIdPost().getId() == post.getId() %}
+																				{% set numComentarios = numComentarios + 1 %}
+																			{% endif %}
+																		{% endfor %}
+																		{% if numComentarios > 0 %}
+																			<small class="text-body-secondary">Comentarios:
+																				{{numComentarios}}</small>
+																		{% endif %}
+																	</div>
+																	<div class="col-5">
+																		<small class="text-body-secondary">{{ post.fechaHora.format('d-m-Y') }}</small>
+																	</div>
+																</div>
+															</p>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									{% endfor %}
+								{% else %}
+									{% if siguiendo == 1 %}
+
+										<div class="col-12 d-flex justify-content-center align-items-center">
+											<h1>No hay posts en este grupo.<br>
+												{% if app.user %}
+													Síguelo y publica uno!
+												{% else %}
+													<smaller>
+														<a href="{{ path('login') }}">Iniciar sesión</a>
+														para publicar uno.</smaller>
+
+												{% endif %}
+											</h1>
+										</div>
+
+									{% else %}
+										<div class="col-12 d-flex justify-content-center align-items-end">
+											<h1>No hay posts en este grupo. Se el primero el publicar uno!</h1>
+										</div>
+										<div class="col-12 d-flex justify-content-center align-items-start ">
+											<a href="{{ asset('crearPost') }}" class="btn btn-outline-primary">Crear post</a>
+										</div>
+									{% endif %}
+
+
+								{% endif %}
+							{% endif %}
+						</div>
+					</div>
+				{% elseif mensaje == 1 %}
+					<div class="col-12 d-flex justify-content-center align-items-center mt-5">
+						<h1>Este grupo no existe</h1>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</body>
+</html>

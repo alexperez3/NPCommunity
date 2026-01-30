@@ -1,0 +1,117 @@
+{# Barra superior si el usuairo esta logueado #}
+{% if app.user %}
+	<nav id="barraSup" class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container-fluid">
+			<a id="npcommunity" class="navbar-brand" href="{{ asset('principal') }}">
+				<img style="border-radius:8px;" width="80px" height="80px" src="{{asset('fotos/logoDefinitivo.png')}}" alt="">&nbsp;NPCommunity
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item me-xl-3">
+						<a class="nav-link active" href="{{ asset('principal') }}">Inicio</a>
+					</li>
+					<li class="nav-item dropdown me-xl-3">
+						<button class="nav-link active dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Añadir
+						</button>
+						<ul class="dropdown-menu">
+							<li style="height:50px">
+								<a class="dropdown-item" href="{{ asset('crearGrupo') }}">
+									<div class="row">
+										<div class="col-3">
+											<img width="40px" height="40px" src="{{asset('fotos/grupo.png')}}" alt="">
+										</div>
+										<div class="col-7">Grupo</div>
+									</div>
+								</a>
+							</li>
+							<li style="height:45px">
+								<a class="dropdown-item" href="{{ asset('crearPost') }}">
+									<div class="row">
+										<div class="col-3">
+											<img width="30px" height="30px" src="{{asset('fotos/anadir.png')}}" alt="">
+										</div>
+										<div class="col-7">Post</div>
+									</div>
+								</a>
+							</li>
+							<li style="height:45px">
+								<a class="dropdown-item" href="{{ asset('crearProducto') }}">
+									<div class="row">
+										<div class="col-3">
+											<img width="35px" height="35px" src="{{asset('fotos/agregar.png')}}" alt="">
+										</div>
+										<div class="col-7">Producto</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item me-xl-5">
+						<a class="nav-link active" href="{{ asset('mensajes') }}">Mensajes</a>
+					</li>
+					<li class="nav-item me-xl-3">
+						<input id="usuario_busqueda" class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" autocomplete="off">
+					</li>
+				</ul>
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					{% if app.user.getRol() == 1 %}
+						<li class="nav-item me-xl-3">
+							<a class="nav-link active" href="{{ asset('zonaAdmin') }}">Zona Admin</a>
+						</li>
+					{% endif %}
+
+					<li class="nav-item me-xl-3">
+						<a class="nav-link active" aria-current="page" href="{{ asset('perfil') }}">
+							<img id="fotoPerfil" style="border-radius:100px;" width="40px" height="40px" src="{{asset('fotos/'~ app.user.getFotoPerfil())}}" alt="">
+							{{ app.user.nomUsuario }}
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="{{ asset('logout') }}">Cerrar sesión</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
+	{# Barra superior si el usuairo NO esta logueado #}
+{% else %}
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container-fluid">
+			<a id="npcommunity" class="navbar-brand" href="{{ asset('principal') }}"><img style="border-radius:8px;" width="80px" height="80px" src="{{asset('fotos/logoDefinitivo.png')}}" alt="">&nbsp;NPCommunity</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item me-lg-5 ms-lg-3">
+						<a class="nav-link active" href="{{ asset('principal') }}">Inicio</a>
+					</li>
+
+
+
+					<li class="nav-item ms-lg-5">
+						<input id="usuario_busqueda" class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" autocomplete="off">
+					</li>
+				</ul>
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					
+					<li class="nav-item me-lg-3">
+						<a class="nav-link active" href="{{ path('login') }}">Iniciar sesión</a>
+					</li>
+
+					<li class="nav-item me-lg-3">
+						<a class="nav-link active" href="{{ path('registro') }}">Crear cuenta</a>
+					</li>
+				</ul>
+
+
+			</div>
+		</div>
+	</nav>
+{% endif %}

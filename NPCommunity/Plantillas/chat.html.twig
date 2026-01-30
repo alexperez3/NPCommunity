@@ -1,0 +1,90 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script type="text/javascript" src="{{ asset('js/mensajes.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/busqueda.js') }}"></script>
+		{# Css #}
+		<link
+		rel="stylesheet" href="{{ asset('css/estilo.css') }}">
+		{# Alertas #}
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		{# bootstrap #}
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+		<title>Mensajes</title>
+	</head>
+	<body>
+		{% include 'barraSuperior.html.twig' %}
+		<div class="container-fluid px-5">
+			<div id="contenido" class="row">
+				<div class="row mt-3">
+					<div class="col-12">
+						<img style="border-radius:100px;" onclick="volverMensajes()" width="40px" height="40px" src="{{asset('fotos/flecha.png')}}" alt="">
+						<small class="text-body-secondary">Volver a mensajes</small>
+					</div>
+					<div class="col-5 col-md-3 col-lg-2 offset-1">
+						<img src="{{asset('fotos/'~ receptor.getFotoPerfil)}}" style="border-radius:50%;" width="150px" height="150px">
+					</div>
+					<div class="col-6 col-xl-4">
+						{% if receptor.nombre %}
+							<h1>{{receptor.nombre}}
+								{{receptor.apellidos}}</h1>
+							<h6>@{{receptor.nomUsuario}}</h6>
+						{% else %}
+							<h1>@{{receptor.nomUsuario}}</h1>
+						{% endif %}
+						<hr>
+					</div>
+					<span id="receptor" hidden>{{receptor.nomUsuario}}</span>
+				</div>
+				<div class="row mt-3 d-flex justify-content-center align-items-center">
+					<div class="col-12 col-lg-8 ">
+						<div class="row py-1" id="conversacion" style="overflow:scroll;overflow-x:hidden; height:510px;border:1px dotted black;border-radius:12px">
+							{% if mensajes|length == 0 %}
+								<div class="col-12 row justify-content-center text-center align-items-end" id="nuevaConver">
+									<div id="mensajeNuevaConver" class="ror" style="font-style:italic">
+										Comienza una conversación nueva!
+									</div>
+								</div>
+							{% else %}
+								<div class="col-12" id="colConversacion">
+									{% for mensaje in mensajes %}
+										<div class="row mb-2">
+											{% if receptor.nomUsuario != mensaje.idEmisor.nomUsuario %}
+
+												<div class="col-6 col-lg-7 offset-4" style="border: black 1px dashed;border-radius: 12px;">
+													{{mensaje.contenido}}
+												</div>
+												<div class="col-2 col-lg-1">
+													<img src="{{asset('fotos/'~ mensaje.idEmisor.getFotoPerfil)}}" style="border-radius:50%" width="40px" height="40px">
+												</div>
+
+											{% else %}
+
+												<div class="col-2 col-lg-1">
+													<img src="{{asset('fotos/'~ mensaje.idEmisor.getFotoPerfil)}}" style="border-radius:50%;" width="40px" height="40px">
+												</div>
+												<div class="col-6 col-lg-7" style="border: black 1px dashed;border-radius: 12px;">
+													{{mensaje.contenido}}
+												</div>
+
+											{% endif %}
+										</div>
+									{% endfor %}
+								</div>
+							{% endif %}
+						</div>
+						<div class="row mt-1">
+							<div class="col-11">
+								<input id="texto" placeholder="Escribe tu mensaje aquí" class="form-control"  autocomplete="off"></input>
+						</div>
+						<div class="col-1">
+							<button class="btn btn-primary" id="boton">Enviar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Recuperar Contraseña</title>
+		<script type="text/javascript" src="{{ asset('js/recuperarContraseña.js') }}"></script>
+		{# Css #}
+		<link
+		rel="stylesheet" href="{{ asset('css/estilo.css') }}">
+
+		{# Alertas #}
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		{# bootstrap #}
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+	</head>
+	<body>
+		<div class="container-fluid px-5">
+			<div class="row mt-5">
+				<div class="row mb-3 mt-2">
+					<div class="col text-center">
+						<div class="row">
+							<div class="col-3 d-flex justify-content-end">
+								<img style="border-radius:8px;" class=" d-block d-lg-none" width="50px" height="50px" src="{{ asset('fotos/logoDefinitivoIIAA.jpg') }}" alt="">
+							</div>
+							<div class="col-6 col-lg-12 mx-2 d-flex justify-content-center">
+								<h1>
+									NPCommunity
+								</h1>
+							</div>
+							<div class="col-2  d-flex">
+								<img style="border-radius:8px;" class=" d-block d-lg-none" width="50px" height="50px" src="{{ asset('fotos/logoDefinitivoIIAA(reverso).jpg') }}" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 d-flex justify-content-center align-items-center">
+					<img style="border-radius:8px;" id="izquierda" class="img-fluid d-none d-lg-block" width="400px" height="400px" src="{{ asset('fotos/logoDefinitivoIIAA.jpg') }}" alt="">
+				</div>
+				<div class="col-10 col-lg-6 offset-1 offset-lg-0 mt-3 d-flex justify-content-center align-items-center">
+					<div class="card mb-2">
+						<div class="col d-flex justify-content-center card-header">
+							<h1 class="fs-2">Recuperar Contraseña</h1>
+						</div>
+
+						<div class="row my-3 d-flex justify-content-center">
+							<div class="col-12 d-flex justify-content-center">
+								<form action="{{ path('enviarCorreo') }}" method="post" class=" d-flex justify-content-center" onsubmit="return enviarEmailRecuperacion(event)">
+									<div class="col-12 px-2">
+										<div class="row">
+											<div class="col-12 d-flex justify-content-center">
+												<label for="username" class="mb-1">
+													Introduce el correo de tu cuenta para cambiar la contraseña
+												</label>
+											</div>
+										</div>
+										<div class="row my-3">
+											<div class="col-10 col-lg-12 offset-1 offset-lg-0  d-flex justify-content-center">
+												<input type="text" class="form-control " id="inputCorreo" name="correo" autocomplete="off"/>
+												<img id="correoEncontrado" class="d-block d-lg-none" width="20px" height="20px" src="" hidden>
+											</div>
+
+
+										</div>
+
+										<div class="row">
+											<div class="col-12 d-flex justify-content-center">
+												<button class="btn btn-primary" type="submit">Enviar Correo</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+				<div class="col-lg-3  d-flex justify-content-center align-items-center ">
+					<img style="border-radius:8px;" id="derecha" class="img-fluid d-none d-lg-block" width="400px" height="400px" src="{{ asset('fotos/logoDefinitivoIIAA(reverso).jpg') }}" alt="">
+				</div>
+			</div>
+			<div class="row mt-3 d-flex justify-content-center">
+				<div class="col d-flex justify-content-center">
+					<a href="{{ path('login') }}">Volver al login</a>
+				</div>
+			</div>
+		</div>
+
+
+	</body>
+</html>

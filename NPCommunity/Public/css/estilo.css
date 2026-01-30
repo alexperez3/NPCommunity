@@ -1,0 +1,22 @@
+* {
+  font-size: 20px;
+}
+
+.nombreUsuarioPerfil {
+  font-size: 50px;
+  font-weight: bolder;
+}
+
+.nav-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white; /* Asegúrate de que el fondo no sea transparente para que se vea bien sobre el contenido de la página */
+    border-bottom: 1px solid #ccc; /* Opcional, solo para darle un poco de estilo */
+}
+
+.quitarEnlace{
+  text-decoration: none;
+  color: black;
+}
